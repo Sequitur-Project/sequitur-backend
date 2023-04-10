@@ -1,6 +1,8 @@
 package com.sequitur.api.IdentityAccessManagement.domain.model;
 
+import com.sequitur.api.DataCollection.domain.model.Conversation;
 import com.sequitur.api.DataCollection.domain.model.Response;
+import com.sequitur.api.DataCollection.domain.model.TrainingPhrase;
 import com.sequitur.api.ProactiveCommunication.domain.model.Notification;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -29,6 +31,9 @@ public class Student extends UserModel {
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Notification> notifications;
+
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
+    private Conversation conversation;
     public Long getId() {
         return id;
     }
@@ -59,5 +64,13 @@ public class Student extends UserModel {
 
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public Conversation getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
     }
 }
