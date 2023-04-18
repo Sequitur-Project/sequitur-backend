@@ -1,5 +1,7 @@
 package com.sequitur.api.DataCollection.domain.model;
 
+import com.google.cloud.dialogflow.v2.FaqAnswer;
+import com.sequitur.api.DiagnosticAndTreatment.domain.model.Result;
 import com.sequitur.api.IdentityAccessManagement.domain.model.Student;
 import com.sequitur.api.SharedContext.domain.model.AuditModel;
 import jakarta.persistence.*;
@@ -29,6 +31,10 @@ public class Conversation extends AuditModel {
 
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
     private List<BotMessage> botMessages;
+
+    @OneToOne(mappedBy = "conversation", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    private Result result;
 
     public Long getId() {
         return id;
@@ -62,4 +68,14 @@ public class Conversation extends AuditModel {
     public void setBotMessages(List<BotMessage> botMessages) {
         this.botMessages = botMessages;
     }
+
+    public Result getResult() {
+        return result;
+    }
+
+    public void setResult(Result result) {
+        this.result = result;
+    }
+
+
 }

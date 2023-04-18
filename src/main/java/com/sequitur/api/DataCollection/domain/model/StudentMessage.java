@@ -1,10 +1,13 @@
 package com.sequitur.api.DataCollection.domain.model;
 
+import com.sequitur.api.DiagnosticAndTreatment.domain.model.Result;
 import com.sequitur.api.SharedContext.domain.model.AuditModel;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -44,4 +47,6 @@ public class StudentMessage extends AuditModel {
     public void setMessage(String message) {
         this.message = message;
     }
+
+
 }
