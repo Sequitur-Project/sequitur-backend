@@ -52,6 +52,7 @@ public class StudentMessageServiceImpl implements StudentMessageService {
 
     @Override
     public StudentMessage createStudentMessage(Long conversationId, StudentMessage studentMessage) {
+
         Conversation conversation = conversationRepository.findById(conversationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Conversation", "Id", conversationId));
 
@@ -59,6 +60,7 @@ public class StudentMessageServiceImpl implements StudentMessageService {
         StudentMessage savedMessage = studentMessageRepository.save(studentMessage);
 
         // call Dialogflow to get bot's response
+
         String projectId = "sequitur-yqvh";
         String sessionId = conversationId.toString();
         String languageCode = "es";
@@ -101,14 +103,13 @@ public class StudentMessageServiceImpl implements StudentMessageService {
                 conversation.setResult(result);
                 resultRepository.save(result);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return savedMessage;
     }
-
-
 
 
 
