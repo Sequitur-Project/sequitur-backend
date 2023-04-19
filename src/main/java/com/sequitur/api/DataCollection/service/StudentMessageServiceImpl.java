@@ -52,11 +52,15 @@ public class StudentMessageServiceImpl implements StudentMessageService {
 
     @Override
     public StudentMessage createStudentMessage(Long conversationId, StudentMessage studentMessage) {
-        Conversation conversation = conversationRepository.findById(conversationId).orElseThrow(() -> new ResourceNotFoundException("Conversation", "Id", conversationId));
+
+        Conversation conversation = conversationRepository.findById(conversationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Conversation", "Id", conversationId));
+
         studentMessage.setConversation(conversation);
         StudentMessage savedMessage = studentMessageRepository.save(studentMessage);
 
-        // call Dialogflow to get bots response
+        // call Dialogflow to get bot's response
+
         String projectId = "sequitur-yqvh";
         String sessionId = conversationId.toString();
         String languageCode = "es";
@@ -79,11 +83,16 @@ public class StudentMessageServiceImpl implements StudentMessageService {
             if (queryResult.getIntent().getDisplayName().equals("PHQ-9 Q9")) {
                 List<StudentMessage> studentMessages = conversation.getStudentMessages();
                 int score = 0;
+                int currentQuestion = 1; // initialize to first question
                 for (StudentMessage message : studentMessages) {
-                    String[] parts = message.getMessage().split(":");
-                    if (parts.length == 2) {
-                        int answer = Integer.parseInt(parts[1].trim());
-                        score += answer;
+                    try {
+                        int answer = Integer.parseInt(message.getMessage().trim());
+                        if (answer >= 0 && answer <= 3) { // check if valid answer
+                            score += answer;
+                            currentQuestion++;
+                        }
+                    } catch (NumberFormatException e) {
+                        // do nothing, not a valid integer answer
                     }
                 }
 
