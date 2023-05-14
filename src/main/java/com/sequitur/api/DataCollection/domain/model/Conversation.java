@@ -32,9 +32,8 @@ public class Conversation extends AuditModel {
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
     private List<BotMessage> botMessages;
 
-    @OneToOne(mappedBy = "conversation", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = false)
-    private Result result;
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
+    private List<Result> results;
 
     public Long getId() {
         return id;
@@ -69,13 +68,11 @@ public class Conversation extends AuditModel {
         this.botMessages = botMessages;
     }
 
-    public Result getResult() {
-        return result;
+    public List<Result> getResults() {
+        return results;
     }
 
-    public void setResult(Result result) {
-        this.result = result;
+    public void setResults(List<Result> results) {
+        this.results = results;
     }
-
-
 }

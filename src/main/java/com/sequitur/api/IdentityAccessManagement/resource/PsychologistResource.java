@@ -15,4 +15,5 @@ public class PsychologistResource extends UserModel {
     private String email;
     private String password;
     private String telephone;
+    private String role;
 }

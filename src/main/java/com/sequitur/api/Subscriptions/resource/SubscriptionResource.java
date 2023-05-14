@@ -6,9 +6,9 @@ import lombok.Data;
 public class SubscriptionResource {
     private Long id;
 
-    private Integer price;
+    private Double price;
 
     private String description;
 
-    private String type;
+    private String title;
 }

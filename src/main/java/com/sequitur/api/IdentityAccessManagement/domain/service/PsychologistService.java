@@ -5,9 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface PsychologistService {
 
-    Page<Psychologist> getAllPsychologistsByUniversityId(Long universityId, Pageable pageable);
+    List<Psychologist> getAllPsychologistsByUniversityId(Long universityId);
 
     Psychologist getPsychologistByIdAndUniversityId(Long universityId, Long psychologistId);
 
@@ -18,6 +20,8 @@ public interface PsychologistService {
     Psychologist createPsychologist(Long universityId, Psychologist psychologist);
 
     Psychologist getPsychologistById(Long psychologistId);
+
+    Psychologist getPsychologistByEmailAndPasswordAndRole(String email, String password, String role);
 
     Page<Psychologist> getAllPsychologists(Pageable pageable);
 }

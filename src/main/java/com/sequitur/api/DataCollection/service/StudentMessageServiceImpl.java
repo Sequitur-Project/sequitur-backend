@@ -1,5 +1,6 @@
 package com.sequitur.api.DataCollection.service;
 
+import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.cloud.dialogflow.v2.*;
 import com.sequitur.api.DataCollection.domain.model.BotMessage;
 import com.sequitur.api.DataCollection.domain.model.Conversation;
@@ -9,7 +10,11 @@ import com.sequitur.api.DataCollection.domain.repository.ConversationRepository;
 import com.sequitur.api.DataCollection.domain.repository.StudentMessageRepository;
 import com.sequitur.api.DataCollection.domain.service.StudentMessageService;
 import com.sequitur.api.DiagnosticAndTreatment.domain.model.Result;
+import com.sequitur.api.DiagnosticAndTreatment.domain.model.UniversityDepressionIndicatorSet;
 import com.sequitur.api.DiagnosticAndTreatment.domain.repository.ResultRepository;
+import com.sequitur.api.DiagnosticAndTreatment.domain.repository.UniversityDepressionIndicatorSetRepository;
+import com.sequitur.api.IdentityAccessManagement.domain.model.Student;
+import com.sequitur.api.IdentityAccessManagement.domain.repository.StudentRepository;
 import com.sequitur.api.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -33,6 +39,12 @@ public class StudentMessageServiceImpl implements StudentMessageService {
 
     @Autowired
     private ResultRepository resultRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private UniversityDepressionIndicatorSetRepository universityDepressionIndicatorSetRepository;
 
     @Override
     public ResponseEntity<?> deleteStudentMessage(Long studentMessageId, Long conversationId) {
@@ -52,7 +64,6 @@ public class StudentMessageServiceImpl implements StudentMessageService {
 
     @Override
     public StudentMessage createStudentMessage(Long conversationId, StudentMessage studentMessage) {
-
         Conversation conversation = conversationRepository.findById(conversationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Conversation", "Id", conversationId));
 
@@ -60,12 +71,11 @@ public class StudentMessageServiceImpl implements StudentMessageService {
         StudentMessage savedMessage = studentMessageRepository.save(studentMessage);
 
         // call Dialogflow to get bot's response
-
         String projectId = "sequitur-yqvh";
         String sessionId = conversationId.toString();
         String languageCode = "es";
         String text = studentMessage.getMessage();
-        try (SessionsClient sessionsClient = SessionsClient.create()) {
+        try (SessionsClient sessionsClient = SessionsClient.create()){
             SessionName session = SessionName.of(projectId, sessionId);
             TextInput.Builder textInput = TextInput.newBuilder().setText(text).setLanguageCode(languageCode);
             QueryInput queryInput = QueryInput.newBuilder().setText(textInput).build();
@@ -95,21 +105,86 @@ public class StudentMessageServiceImpl implements StudentMessageService {
                         // do nothing, not a valid integer answer
                     }
                 }
-
                 // create new Result and add it to conversation
                 Result result = new Result();
                 result.setConversation(conversation);
+                result.setStudent(conversation.getStudent());
                 result.setScore(score);
-                conversation.setResult(result);
-                resultRepository.save(result);
-            }
 
+                String status;
+                if (score >= 0 && score <= 4) {
+                    status = "Depresión Mínima";
+                } else if (score >= 5 && score <= 9) {
+                    status = "Depresión Leve";
+                } else if (score >= 10 && score <= 14) {
+                    status = "Depresión Moderada";
+                } else if (score >= 15 && score <= 19) {
+                    status = "Depresión Moderamente Severa";
+                } else {
+                    status = "Depresión Severa";
+                }
+
+                result.setStatus(status);
+                conversation.getResults().add(result);
+                resultRepository.save(result);
+
+                // update university depression indicators
+                List<Student> students = studentRepository.findByUniversityId(conversation.getStudent().getUniversity().getId());
+                int totalStudents = students.size();
+                int[] depressionCount = new int[5]; // to count students in each depression level
+                for (Student student : students) {
+                    List<Result> results = resultRepository.findByStudentId(student.getId());
+                    if (!results.isEmpty()) {
+                        Result latestResult = results.get(results.size() - 1);
+                        switch (latestResult.getStatus()) {
+                            case "Depresión Mínima":
+                                depressionCount[0]++;
+                                break;
+                            case "Depresión Leve":
+                                depressionCount[1]++;
+                                break;
+                            case "Depresión Moderada":
+                                depressionCount[2]++;
+                                break;
+                            case "Depresión Moderadamente Severa":
+                                depressionCount[3]++;
+                                break;
+                            case "Depresión Severa":
+                                depressionCount[4]++;
+                                break;
+                            default:
+                                // do nothing
+                                break;
+                        }
+                    }
+                }
+
+                // calculate percentages
+                int totalDepressed = depressionCount[1] + depressionCount[2] + depressionCount[3] + depressionCount[4];
+                int totalNonDepressed = depressionCount[0];
+                double depressionPercentage = (double) totalDepressed / totalStudents * 100;
+                double noDepressionPercentage = (double) totalNonDepressed / totalStudents * 100;
+
+                // save/update university depression indicators
+                UniversityDepressionIndicatorSet indicators = universityDepressionIndicatorSetRepository.findAllByUniversityId(conversation.getStudent().getUniversity().getId());
+                if (indicators == null) {
+                    indicators = new UniversityDepressionIndicatorSet();
+                    indicators.setUniversity(conversation.getStudent().getUniversity());
+                }
+                indicators.setDepressionPercentage(depressionPercentage);
+                indicators.setNoDepressionPercentage(noDepressionPercentage);
+                indicators.setStudentsQuantity(totalStudents);
+                universityDepressionIndicatorSetRepository.save(indicators);
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return savedMessage;
     }
+
+
 
 
 

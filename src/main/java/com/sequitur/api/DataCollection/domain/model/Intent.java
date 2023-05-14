@@ -1,6 +1,7 @@
 package com.sequitur.api.DataCollection.domain.model;
 
 import ch.qos.logback.classic.spi.LoggingEventVO;
+import com.sequitur.api.SharedContext.domain.model.AuditModel;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Data
 @Table(name = "intents")
-public class Intent {
+public class Intent extends AuditModel {
 
     @Id
     private UUID id;

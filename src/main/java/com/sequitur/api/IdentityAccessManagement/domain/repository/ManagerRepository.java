@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ManagerRepository extends JpaRepository<Manager, Long> {
+    Manager findByEmailAndPasswordAndRole(String email, String password, String role);
 }

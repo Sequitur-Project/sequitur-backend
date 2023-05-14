@@ -39,6 +39,11 @@ public class ManagerController {
     @Autowired
     private UniversityService universityService;
 
+    @GetMapping("/managers/{managerId}/status")
+    public boolean isSubscribed(@PathVariable Long managerId) {
+        return managerService.isSubscribed(managerId);
+    }
+
     @Operation(summary = "Get Managers", description = "Get All Managers by Pages", tags = { "managers" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All Managers returned", content = @Content(mediaType = "application/json"))
@@ -59,10 +64,20 @@ public class ManagerController {
         return convertToResource(managerService.getManagerById(managerId));
     }
 
+    @Operation(summary = "Get Manager by Email And Password And Role", description = "Get a Manager by specifying email and password and role", tags = { "managers" })
+    @GetMapping("/managers/login")
+    public ManagerResource getPsychologistByEmailAndPasswordAndRole(
+            @RequestParam(name = "email") String email,
+            @RequestParam(name = "password") String password,
+            @RequestParam(name = "role") String role) {
+        return convertToResource(managerService.findByEmailAndPasswordAndRole(email, password,role));
+    }
+
     @PostMapping("/managers")
     @Transactional
     public ManagerResource createManager(@Valid @RequestBody SaveManagerResource resource)  {
         Manager manager = convertToEntity(resource);
+        manager.setRole("Manager");
         return convertToResource(managerService.createManager(manager));
     }
 

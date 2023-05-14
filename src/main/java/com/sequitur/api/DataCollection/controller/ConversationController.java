@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Tag(name = "conversations", description = "Conversations API")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 public class ConversationController {
 

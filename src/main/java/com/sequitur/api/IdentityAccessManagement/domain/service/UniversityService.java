@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface UniversityService {
     ResponseEntity<?> deleteUniversity(Long universityId);
 
@@ -14,7 +16,7 @@ public interface UniversityService {
 
     University getUniversityById(Long universityId);
 
-    Page<University> getAllUniversities(Pageable pageable);
+    List<University> getAllUniversities();
 
     University getUniversityByRuc(String ruc);
 }

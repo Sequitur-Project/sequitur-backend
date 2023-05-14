@@ -1,5 +1,7 @@
 package com.sequitur.api.DiagnosticAndTreatment.controller;
 
+import com.sequitur.api.DataCollection.domain.model.Conversation;
+import com.sequitur.api.DataCollection.resource.ConversationResource;
 import com.sequitur.api.DiagnosticAndTreatment.domain.model.Result;
 import com.sequitur.api.DiagnosticAndTreatment.domain.service.ResultService;
 import com.sequitur.api.DiagnosticAndTreatment.resource.ResultResource;
@@ -29,10 +31,29 @@ public class ResultController {
     private ResultService resultService;
 
 
+    @GetMapping("/conversations/{conversationId}/results")
+    public ResultResource getResultByConversationId(@PathVariable(name = "conversationId") Long conversationId) {
+        return convertToResource(resultService.getResultByConversationId(conversationId));
+    }
+
     @GetMapping("/conversations/{conversationId}/results/{resultId}")
     public ResultResource getResultByIdAndConversationId(@PathVariable(name = "resultId") Long resultId,
                                                           @PathVariable(name = "conversationId") Long conversationId) {
         return convertToResource(resultService.getResultByIdAndConversationId(resultId, conversationId));
+    }
+
+    @GetMapping("/students/{studentId}/results")
+    public List<ResultResource> getAllResultsByStudentId(
+            @PathVariable(name = "studentId") Long studentId) {
+        List<Result> results =resultService.getAllResultsByStudentId(studentId);
+        List<ResultResource> resources = results.stream().map(this::convertToResource).collect(Collectors.toList());
+        return resources;
+    }
+
+    @GetMapping("/students/{studentId}/results/{resultId}")
+    public ResultResource getResultByIdAndStudentId(@PathVariable(name = "studentId") Long studentId,
+                                                                @PathVariable(name = "resultId") Long resultId) {
+        return convertToResource(resultService.getResultByIdAndStudentId(resultId, studentId));
     }
 
 

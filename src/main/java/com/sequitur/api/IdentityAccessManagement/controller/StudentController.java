@@ -37,18 +37,22 @@ public class StudentController {
             @ApiResponse(responseCode = "200", description = "All Students returned", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/universities/{universityId}/students")
-    public Page<StudentResource> getAllStudentsByUniversityId(
-            @PathVariable(name = "universityId") Long universityId,
-            Pageable pageable) {
-        Page<Student> studentPage = studentService.getAllStudentsByUniversityId(universityId, pageable);
-        List<StudentResource> resources = studentPage.getContent().stream().map(this::convertToResource).collect(Collectors.toList());
-        return new PageImpl<StudentResource>(resources, pageable, resources.size());
+    public List<StudentResource> getAllStudentsByUniversityId(
+            @PathVariable(name = "universityId") Long universityId) {
+        List<Student> studentList = studentService.getAllStudentsByUniversityId(universityId);
+        List<StudentResource> resources = studentList.stream().map(this::convertToResource).collect(Collectors.toList());
+        return resources;
     }
 
     @GetMapping("/universities/{universityId}/students/{studentId}")
     public StudentResource getStudentByIdAndUniversityId(@PathVariable(name = "universityId") Long universityId,
                                              @PathVariable(name = "studentId") Long studentId) {
         return convertToResource(studentService.getStudentByIdAndUniversityId(universityId, studentId));
+    }
+
+    @GetMapping("/students/{studentId}")
+    public StudentResource getStudentById(@PathVariable(name = "studentId") Long studentId) {
+        return convertToResource(studentService.getStudentById(studentId));
     }
 
     @PostMapping("/universities/{universityId}/students")
@@ -79,7 +83,7 @@ public class StudentController {
         Page<Student> studentsPage = studentService.getAllStudents(pageable);
         List<StudentResource> resources = studentsPage.getContent().stream().map(this::convertToResource).collect(Collectors.toList());
 
-        return new PageImpl<StudentResource>(resources,pageable , resources.size());
+        return new PageImpl<StudentResource>(resources,pageable , studentsPage.getTotalElements());
     }
 
     private Student convertToEntity(SaveStudentResource resource) {

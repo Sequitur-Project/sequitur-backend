@@ -65,7 +65,7 @@ public class NotificationController {
         return convertToResource(notificationService.updateNotification(studentId, notificationId, convertToEntity(resource)));
     }
 
-    @DeleteMapping("/users/{userId}/posts/{postId}")
+    @DeleteMapping("/students/{studentId}/notifications/{notificationId}")
     public ResponseEntity<?> deleteNotification(@PathVariable(name = "studentId") Long studentId,
                                         @PathVariable(name = "notificationId") Long notificationId) {
         return notificationService.deleteNotification(studentId, notificationId);

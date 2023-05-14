@@ -21,5 +21,9 @@ public class ManagerResource extends UserModel {
 
     private String telephone;
 
+    private boolean isSubscribed;
+    private String role;
+
     private UniversityResource university;
+
 }

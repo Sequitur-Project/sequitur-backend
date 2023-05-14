@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Tag(name = "trainingPhrases", description = "TrainingPhrases API")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 public class TrainingPhraseController {
 

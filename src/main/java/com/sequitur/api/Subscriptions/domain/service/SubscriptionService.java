@@ -1,5 +1,6 @@
 package com.sequitur.api.Subscriptions.domain.service;
 
+import com.sequitur.api.IdentityAccessManagement.domain.model.Manager;
 import com.sequitur.api.Subscriptions.domain.model.Subscription;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,5 +17,8 @@ public interface SubscriptionService {
     Subscription getSubscriptionById(Long subscriptionId);
 
     Page<Subscription> getAllSubscriptions(Pageable pageable);
+
+
+
 
 }

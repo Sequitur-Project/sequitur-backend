@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 
 @Tag(name = "binnacle_entries", description = "BinnacleEntries API")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 public class BinnacleEntryController {
 

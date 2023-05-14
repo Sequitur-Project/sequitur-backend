@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ResultServiceImpl implements ResultService {
 
@@ -20,6 +22,11 @@ public class ResultServiceImpl implements ResultService {
 
     @Autowired
     private ConversationRepository conversationRepository;
+
+    @Override
+    public Result getResultByConversationId(Long conversationId) {
+        return resultRepository.findByConversationId(conversationId);
+    }
 
     @Override
     public Result getResultByIdAndConversationId(Long resultId, Long conversationId) {
@@ -46,5 +53,18 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public Page<Result> getAllResults(Pageable pageable) {
         return resultRepository.findAll(pageable);
+    }
+
+    @Override
+    public Result getResultByIdAndStudentId(Long resultId, Long studentId) {
+        return resultRepository.findByIdAndStudentId(resultId, studentId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Result not found with Id " + resultId +
+                                " and StudentId " + studentId));
+    }
+
+    @Override
+    public List<Result> getAllResultsByStudentId(Long studentId) {
+        return resultRepository.findByStudentId(studentId);
     }
 }

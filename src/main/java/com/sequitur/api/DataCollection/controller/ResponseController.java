@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Tag(name = "responses", description = "Responses API")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 public class ResponseController {
     @Autowired

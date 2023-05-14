@@ -14,7 +14,7 @@
     <name>api</name>
     <description>api</description>
     <properties>
-        <java.version>8</java.version>
+        <java.version>11</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -78,6 +78,13 @@
             <artifactId>google-cloud-dialogflow</artifactId>
             <version>4.18.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>22.13.0</version>
+        </dependency>
+
 
     </dependencies>
 
