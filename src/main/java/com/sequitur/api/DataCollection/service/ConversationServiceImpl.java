@@ -23,8 +23,8 @@ public class ConversationServiceImpl implements ConversationService {
 
 
     @Override
-    public Page<Conversation> getAllConversationsByStudentId(Long studentId, Pageable pageable) {
-        return conversationRepository.findByStudentId(studentId, pageable);
+    public Conversation getConversationByStudentId(Long studentId) {
+        return conversationRepository.findByStudentId(studentId);
     }
 
     @Override

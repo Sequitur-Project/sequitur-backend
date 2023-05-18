@@ -1,5 +1,6 @@
 package com.sequitur.api.DataCollection.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
@@ -18,6 +19,7 @@ public class Response {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "intent_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference
     private Intent intent;
 
     public String getId() {

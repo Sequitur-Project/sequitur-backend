@@ -12,6 +12,7 @@ public class SaveStudentResource extends UserModel {
     private String firstName;
     private String lastName;
     private String email;
+    private String genre;
     private String password;
     private String telephone;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

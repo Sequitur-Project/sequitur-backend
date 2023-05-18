@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Tag(name = "studentMessages", description = "StudentMessages API")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 public class StudentMessageController {
 
@@ -50,6 +51,7 @@ public class StudentMessageController {
                                              @PathVariable(name = "studentMessageId") Long studentMessageId) {
         return convertToResource(studentMessageService.getStudentMessageByIdAndConversationId(conversationId, studentMessageId));
     }
+
 
     @PostMapping("/conversations/{conversationId}/studentMessages")
     public StudentMessageResource createStudentMessage(@PathVariable(name = "conversationId") Long conversationId,

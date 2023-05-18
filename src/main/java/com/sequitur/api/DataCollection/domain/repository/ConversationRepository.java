@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface ConversationRepository extends JpaRepository<Conversation, Long> {
-    Page<Conversation> findByStudentId(Long studentId, Pageable pageable);
+    Conversation findByStudentId(Long studentId);
     Optional<Conversation> findByIdAndStudentId(Long id, Long studentId);
 }

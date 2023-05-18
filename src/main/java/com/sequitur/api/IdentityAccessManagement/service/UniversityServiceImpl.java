@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UniversityServiceImpl implements UniversityService {
     @Autowired
@@ -49,8 +51,8 @@ public class UniversityServiceImpl implements UniversityService {
     }
 
     @Override
-    public Page<University> getAllUniversities(Pageable pageable) {
-        return universityRepository.findAll(pageable);
+    public List<University> getAllUniversities() {
+        return universityRepository.findAll();
     }
 
     @Override

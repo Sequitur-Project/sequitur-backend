@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface BinnacleRepository extends JpaRepository<Binnacle, Long> {
     Optional<Binnacle> findByIdAndStudentId(Long id, Long studentId);
+    Binnacle findByStudentId(Long studentId);
 }

@@ -1,11 +1,14 @@
 package com.sequitur.api.IdentityAccessManagement.controller;
 
 import com.sequitur.api.IdentityAccessManagement.domain.model.Manager;
+import com.sequitur.api.IdentityAccessManagement.domain.model.Psychologist;
 import com.sequitur.api.IdentityAccessManagement.domain.model.University;
 import com.sequitur.api.IdentityAccessManagement.domain.service.ManagerService;
 import com.sequitur.api.IdentityAccessManagement.domain.service.UniversityService;
 import com.sequitur.api.IdentityAccessManagement.resource.ManagerResource;
 import com.sequitur.api.IdentityAccessManagement.resource.SaveManagerResource;
+import com.sequitur.api.IdentityAccessManagement.resource.SavePsychologistResource;
+import com.sequitur.api.IdentityAccessManagement.resource.UpdateManagerResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,6 +42,11 @@ public class ManagerController {
     @Autowired
     private UniversityService universityService;
 
+    @GetMapping("/managers/{managerId}/status")
+    public boolean isSubscribed(@PathVariable Long managerId) {
+        return managerService.isSubscribed(managerId);
+    }
+
     @Operation(summary = "Get Managers", description = "Get All Managers by Pages", tags = { "managers" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All Managers returned", content = @Content(mediaType = "application/json"))
@@ -53,16 +61,26 @@ public class ManagerController {
 
     @Operation(summary = "Get Manager by Id", description = "Get a Manager by specifying Id", tags = { "managers" })
     @GetMapping("/managers/{id}")
-    public ManagerResource getPsychologistById(
+    public ManagerResource getManagerById(
             @Parameter(description="Manager Id")
             @PathVariable(name = "id") Long managerId) {
         return convertToResource(managerService.getManagerById(managerId));
+    }
+
+    @Operation(summary = "Get Manager by Email And Password And Role", description = "Get a Manager by specifying email and password and role", tags = { "managers" })
+    @GetMapping("/managers/login")
+    public ManagerResource getManagerByEmailAndPasswordAndRole(
+            @RequestParam(name = "email") String email,
+            @RequestParam(name = "password") String password,
+            @RequestParam(name = "role") String role) {
+        return convertToResource(managerService.findByEmailAndPasswordAndRole(email, password,role));
     }
 
     @PostMapping("/managers")
     @Transactional
     public ManagerResource createManager(@Valid @RequestBody SaveManagerResource resource)  {
         Manager manager = convertToEntity(resource);
+        manager.setRole("Manager");
         return convertToResource(managerService.createManager(manager));
     }
 
@@ -72,8 +90,8 @@ public class ManagerController {
     }
 
     @PutMapping("/managers/{id}")
-    public ManagerResource updateManager(@PathVariable(name = "id") Long managerId, @Valid @RequestBody SaveManagerResource resource) {
-        Manager manager = convertToEntity(resource);
+    public ManagerResource updateManager(@PathVariable(name = "id") Long managerId, @Valid @RequestBody UpdateManagerResource resource) {
+        Manager manager = convertToEntityUpdated(resource);
         return convertToResource(managerService.updateManager(managerId, manager));
     }
 
@@ -91,6 +109,9 @@ public class ManagerController {
         return manager;
     }
 
+    private Manager convertToEntityUpdated(UpdateManagerResource resource) {
+        return mapper.map(resource, Manager.class);
+    }
     private ManagerResource convertToResource(Manager entity) {
         return mapper.map(entity, ManagerResource.class);
     }

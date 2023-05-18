@@ -7,6 +7,8 @@ import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "binnacles")
@@ -19,6 +21,9 @@ public class Binnacle extends AuditModel {
     @JoinColumn(name = "student_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Student student;
+
+    @OneToMany(mappedBy = "binnacle", cascade = CascadeType.ALL)
+    private List<BinnacleEntry> binnacleEntries;
 
     public Long getId() {
         return id;

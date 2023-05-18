@@ -1,8 +1,12 @@
 package com.sequitur.api.IdentityAccessManagement.domain.model;
 
+import com.sequitur.api.DataCollection.domain.model.StudentMessage;
+import com.sequitur.api.Subscriptions.domain.model.Payment;
 import com.sequitur.api.Subscriptions.domain.model.Subscription;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Table(name = "managers")
@@ -16,8 +20,15 @@ public class Manager extends UserModel {
     @JoinColumn(name = "university_id", referencedColumnName = "id")
     private University university;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "manager", cascade = CascadeType.ALL)
     private Subscription subscription;
+
+    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
+    private List<Payment> payments;
+
+    private boolean isSubscribed;
+
+    private String role;
 
     public University getUniversity() {
         return university;
@@ -35,11 +46,4 @@ public class Manager extends UserModel {
         this.id = id;
     }
 
-    public Subscription getSubscription() {
-        return subscription;
-    }
-
-    public void setSubscription(Subscription subscription) {
-        this.subscription = subscription;
-    }
 }

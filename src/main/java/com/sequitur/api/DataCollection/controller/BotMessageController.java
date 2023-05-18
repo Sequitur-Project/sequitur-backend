@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 @Tag(name = "botMessages", description = "BotMessages API")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 public class BotMessageController {
     @Autowired

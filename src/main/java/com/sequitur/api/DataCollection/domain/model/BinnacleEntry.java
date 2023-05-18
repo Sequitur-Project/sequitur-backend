@@ -1,5 +1,6 @@
 package com.sequitur.api.DataCollection.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sequitur.api.SharedContext.domain.model.AuditModel;
 import jakarta.persistence.*;
 import lombok.Data;

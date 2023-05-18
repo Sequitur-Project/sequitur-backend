@@ -41,18 +41,29 @@ public class PsychologistController {
             @ApiResponse(responseCode = "200", description = "All Psychologists returned", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/universities/{universityId}/psychologists")
-    public Page<PsychologistResource> getAllPsychologistsByUniversityId(
-            @PathVariable(name = "universityId") Long universityId,
-            Pageable pageable) {
-        Page<Psychologist> psychologistPage = psychologistService.getAllPsychologistsByUniversityId(universityId, pageable);
-        List<PsychologistResource> resources = psychologistPage.getContent().stream().map(this::convertToResource).collect(Collectors.toList());
-        return new PageImpl<PsychologistResource>(resources, pageable, resources.size());
+    public List<PsychologistResource> getAllPsychologistsByUniversityId(
+            @PathVariable(name = "universityId") Long universityId) {
+        List<Psychologist> psychologists = psychologistService.getAllPsychologistsByUniversityId(universityId);
+        List<PsychologistResource> resources = psychologists.stream().map(this::convertToResource).collect(Collectors.toList());
+        return resources;
     }
 
     @GetMapping("/universities/{universityId}/psychologists/{psychologistId}")
     public PsychologistResource getSPsychologistByIdAndUniversityId(@PathVariable(name = "universityId") Long universityId,
                                                          @PathVariable(name = "psychologistId") Long psychologistId) {
         return convertToResource(psychologistService.getPsychologistByIdAndUniversityId(universityId, psychologistId));
+    }
+
+    @GetMapping("/psychologists/{psychologistId}")
+    public PsychologistResource getSPsychologistById(@PathVariable(name = "psychologistId") Long psychologistId) {
+        return convertToResource(psychologistService.getPsychologistById(psychologistId));
+    }
+
+    @GetMapping("/psychologists/login")
+    public PsychologistResource getPsychologistByEmailAndPasswordAndRole(@RequestParam(name = "email") String email,
+                                                                  @RequestParam(name = "password") String password,
+                                                                         @RequestParam(name = "role") String role) {
+        return convertToResource(psychologistService.getPsychologistByEmailAndPasswordAndRole(email, password,role));
     }
 
     @PostMapping("/universities/{universityId}/psychologists")

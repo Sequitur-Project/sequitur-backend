@@ -15,4 +15,6 @@ public interface BinnacleService {
     Page<Binnacle> getAllBinnacles(Pageable pageable);
 
     Binnacle getBinnacleByIdAndStudentId(Long binnacleId, Long studentId);
+
+    Binnacle getByStudentId(Long studentId);
 }

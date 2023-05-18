@@ -51,4 +51,9 @@ public class BinnacleServiceImpl implements BinnacleService {
                         "Binnacle not found with Id " + binnacleId +
                                 " and StudentId " + studentId));
     }
+
+    @Override
+    public Binnacle getByStudentId(Long studentId) {
+        return binnacleRepository.findByStudentId(studentId);
+    }
 }

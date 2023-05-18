@@ -1,5 +1,7 @@
 package com.sequitur.api.Subscriptions.service;
 
+
+import com.sequitur.api.IdentityAccessManagement.domain.model.Manager;
 import com.sequitur.api.Subscriptions.domain.model.Subscription;
 import com.sequitur.api.Subscriptions.domain.repository.SubscriptionRepository;
 import com.sequitur.api.Subscriptions.domain.service.SubscriptionService;
@@ -29,7 +31,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
        Subscription subscription = subscriptionRepository.findById(subscriptionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Subscription", "Id", subscriptionId));
         subscription.setPrice(subscriptionRequest.getPrice());
-        subscription.setType(subscriptionRequest.getType());
+        subscription.setTitle(subscriptionRequest.getTitle());
         subscription.setDescription(subscriptionRequest.getDescription());
 
 
@@ -51,4 +53,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public Page<Subscription> getAllSubscriptions(Pageable pageable) {
         return subscriptionRepository.findAll(pageable);
     }
+
+
 }

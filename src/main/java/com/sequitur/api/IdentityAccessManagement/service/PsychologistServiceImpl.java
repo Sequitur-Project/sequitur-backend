@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PsychologistServiceImpl implements PsychologistService {
 
@@ -22,8 +24,8 @@ public class PsychologistServiceImpl implements PsychologistService {
     private UniversityRepository universityRepository;
 
     @Override
-    public Page<Psychologist> getAllPsychologistsByUniversityId(Long universityId, Pageable pageable) {
-        return psychologistRepository.findByUniversityId(universityId, pageable);
+    public List<Psychologist> getAllPsychologistsByUniversityId(Long universityId) {
+        return psychologistRepository.findByUniversityId(universityId);
     }
 
     @Override
@@ -59,6 +61,7 @@ public class PsychologistServiceImpl implements PsychologistService {
     public Psychologist createPsychologist(Long universityId, Psychologist psychologist) {
         University university = universityRepository.findById(universityId).orElseThrow(() -> new ResourceNotFoundException("University", "Id", universityId));
         psychologist.setUniversity(university);
+        psychologist.setRole("Psicólogo");
         return psychologistRepository.save(psychologist);
     }
 
@@ -71,5 +74,10 @@ public class PsychologistServiceImpl implements PsychologistService {
     @Override
     public Page<Psychologist> getAllPsychologists(Pageable pageable) {
         return psychologistRepository.findAll(pageable);
+    }
+
+    @Override
+    public Psychologist getPsychologistByEmailAndPasswordAndRole(String email, String password,String role) {
+        return psychologistRepository.findByEmailAndPasswordAndRole(email, password, role);
     }
 }

@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 
 public interface StudentMessageService {
     ResponseEntity<?> deleteStudentMessage(Long studentMessageId, Long conversationId);
@@ -20,4 +22,6 @@ public interface StudentMessageService {
     Page<StudentMessage> getAllStudentMessagesByConversationId(Long conversationId, Pageable pageable);
 
     StudentMessage getStudentMessageByIdAndConversationId(Long conversationId, Long studentMessageId);
+
+
 }

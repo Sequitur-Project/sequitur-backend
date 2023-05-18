@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudentServiceImpl implements StudentService {
 
@@ -22,8 +24,8 @@ public class StudentServiceImpl implements StudentService {
     private UniversityRepository universityRepository;
 
     @Override
-    public Page<Student> getAllStudentsByUniversityId(Long universityId, Pageable pageable) {
-        return studentRepository.findByUniversityId(universityId, pageable);
+    public List<Student> getAllStudentsByUniversityId(Long universityId) {
+        return studentRepository.findByUniversityId(universityId);
     }
 
     @Override

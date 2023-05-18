@@ -38,12 +38,11 @@ public class UniversityController {
             @ApiResponse(responseCode = "200", description = "All Universities returned", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/universities")
-    public Page<UniversityResource> getAllUniversities(Pageable pageable) {
-        Page<University> universitiesPage = universityService.getAllUniversities(pageable);
-        List<UniversityResource> resources = universitiesPage.getContent().stream().map(this::convertToResource).collect(Collectors.toList());
-
-        return new PageImpl<>(resources, pageable, resources.size());
+    public List<UniversityResource> getAllUniversities() {
+        List<University> universities = universityService.getAllUniversities();
+        return universities.stream().map(this::convertToResource).collect(Collectors.toList());
     }
+
 
     @Operation(summary = "Get University by Id", description = "Get a University by specifying Id", tags = { "universities" })
     @GetMapping("/universities/{id}")

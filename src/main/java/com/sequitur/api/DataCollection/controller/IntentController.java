@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Tag(name = "intents", description = "Intents API")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 public class IntentController {
 
@@ -43,7 +44,7 @@ public class IntentController {
         Page<Intent> intentsPage = intentService.getAllIntents(pageable);
         List<IntentResource> resources = intentsPage.getContent().stream().map(this::convertToResource).collect(Collectors.toList());
 
-        return new PageImpl<>(resources, pageable, resources.size());
+        return new PageImpl<>(resources, pageable, intentsPage.getTotalElements());
     }
 
     @Operation(summary = "Get Intent by Id", description = "Get a Intent by specifying Id", tags = { "intents" })

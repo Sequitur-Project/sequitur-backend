@@ -1,8 +1,7 @@
 package com.sequitur.api.IdentityAccessManagement.domain.model;
 
+import com.sequitur.api.DiagnosticAndTreatment.domain.model.UniversityDepressionIndicatorSet;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -48,6 +47,10 @@ public class University {
 
     @OneToMany(mappedBy = "university")
     private List<Psychologist> psychologists;
+
+    @OneToOne(mappedBy = "university")
+    private UniversityDepressionIndicatorSet universityDepressionIndicatorSet;
+
 
     public Long getId() {
         return id;
@@ -120,4 +123,13 @@ public class University {
     public void setPsychologists(List<Psychologist> psychologists) {
         this.psychologists = psychologists;
     }
+
+    public String getRuc() {
+        return ruc;
+    }
+
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
+    }
+
 }

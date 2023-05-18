@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "sequitur-yqvh",
+  "private_key_id": "13e83bd35411727d079448519c29a59299cd0e56",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCxGu4wHY5Z2ikh\nIqIXqo4yw5mUWQVGeMTkp2DOkj98tXt7VZo6/PnsOAN5KLdt066z9xuNZavd3H/U\noWO6Fz/evki5b0jipvFNxxxvWUFCEz3GSZ2LsAR050dhJBRZL+EafdGSXgjZY1m7\naTkZZUSwBcvxW3OjN57ms9LyudrBydkGEZyhfzQB6dMtrq42wPIKTEb/tAazUd6g\nTXEPf+qdHPEhJO+ZtJRCq5aYl1qUTtl/mUrk3SajPQFgRxFOd/JNStLuaRUyjstc\nPQz2Mv4+FOubGGgQvuygdL/GGM4jWF013nhe9SiECOz01NnTP1mwSLePIGt47M0v\nncqp0lZpAgMBAAECggEAA51qNkL95F8c+kz8WMhjUJIDtqn8EUJGubGh6IjrJ+SF\nsawWYH4RmbYbsOXd0ps8LYjWtuFzWP+NkkIYVmbLTGk19AK24QbgXvBKulM+87ZG\nePrkCkxDVwY7DMjc2VIuQYS0tVXIz2JAkxb0oDoJwLJyvC4Jpc+tSc8hnL6iVLAr\nA6kS8UfgxSAdW9Gqfb7YdL9hW+mpwi1d2PfRLxOAOoiuxr5lOqNOoQeV+s0f+dg/\nr55X/k115WcUYvXcUQ18rUokdULxTpowb1v1JSvkQxeC4gK3R1mx8ZQJZaq4VG1C\nMUu0eYwPZRJKHqutSM1UAFcg0D861fdP3CJnreJtdQKBgQDWYOkVnzHX68wVbc5F\n2xc3gTH8oFljiwYOShPnY3KPFQDEL636M5XBTFNkFsHLimKWwwTobAxfIayPSTlP\npOTXZFG0MKR402qbjGhbwcH8/9AZW0t4h69BW16TyXt5UArg2iM+Kzm2RKEvcASg\n3YAkNAbEzRq3GruyR9/kCamrlQKBgQDTfXOKdgfFYjsX2kSkpRZKEEslcTkWHARs\n+45ZlPS6VNvSETUFX1jST15ajcL0sxc5wrDu2Ia0vIUGICpHsnTfHs/RQlQrw/MV\ns0EZZfI3k6cCTs3+kPXi5Pb7cNUvwJenylURyX98/ocOJMnHbFLytC0dDjIIiTkk\nXH3/EP7qhQKBgQCxTp35YB2ddEzrPFJqvHZLVfO9+fF0vztW/jXQHxRU+w4TNUwz\nsA6gPTyLf7bxXZeFEe8xPIxO8k8Cg5F/KeaLr1FUMxcVR+bYmByIJ40Gb53yGuwk\n2DQ/Xg6vNOmGwIj+x+x2MtIcyk52KbPqSMj/KHigtPLvlpC/N2sZ9FP8sQKBgQCX\n6nFocEg8vMb950ePjRZptTKFfsMm4pE7R6eFKb5xaitMxhdz+H1w9JouKc50v4Bb\neUJnDxoUEabsM4arYcEZ1KQrCJ41odenKtAEUnqe+Wzp93l49t/pT9cp3m8Eki9d\n07UvxbHSM3MH8d0PZvxeYpZVXLEL+KYXPGk1Ixw5kQKBgA0XYzznk9b+bc+BapaY\nNIGCbWpOH3Dbf2rTgGSO7VKGOSxnjPEs8CfbDwAgLY1ydBn5yyPcfL08Vj0MIexQ\n1OtQpFVPlaVVtndz3Qq6zmD4fAdjeKfnX+SJBsP9mt7deXGvmxw5LvLJgnTNt/8p\nI6w3H4J2AKnTYlUcGXNjojaq\n-----END PRIVATE KEY-----\n",
+  "client_email": "sequiturdev01@sequitur-yqvh.iam.gserviceaccount.com",
+  "client_id": "110847909229263390853",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/sequiturdev01%40sequitur-yqvh.iam.gserviceaccount.com"
+}

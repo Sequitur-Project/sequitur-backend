@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ManagerServiceImpl implements ManagerService {
 
@@ -51,7 +53,6 @@ public class ManagerServiceImpl implements ManagerService {
         manager.setLastName(managerRequest.getLastName());
         manager.setPassword(managerRequest.getPassword());
         manager.setTelephone(managerRequest.getTelephone());
-        manager.setUniversity(managerRequest.getUniversity());
         return managerRepository.save(manager);
     }
 
@@ -71,5 +72,20 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public Page<Manager> getAllManagers(Pageable pageable) {
         return managerRepository.findAll(pageable);
+    }
+
+    @Override
+    public Manager findByEmailAndPasswordAndRole(String email, String password, String role) {
+       return managerRepository.findByEmailAndPasswordAndRole(email,password,role);
+    }
+
+    @Override
+    public boolean isSubscribed(Long managerId) {
+        Optional<Manager> optionalManager = managerRepository.findById(managerId);
+        if (optionalManager.isPresent()) {
+            Manager manager = optionalManager.get();
+            return manager.isSubscribed();
+        }
+        return false;
     }
 }

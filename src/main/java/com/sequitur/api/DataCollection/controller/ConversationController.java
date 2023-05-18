@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Tag(name = "conversations", description = "Conversations API")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 public class ConversationController {
 
@@ -34,15 +35,11 @@ public class ConversationController {
     private ConversationService conversationService;
 
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "All Conversations returned", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Conversation returned", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/students/{studentId}/conversations")
-    public Page<ConversationResource> getAllConversationsByStudentId(
-            @PathVariable(name = "studentId") Long studentId,
-            Pageable pageable) {
-        Page<Conversation> conversationPage = conversationService.getAllConversationsByStudentId(studentId, pageable);
-        List<ConversationResource> resources = conversationPage.getContent().stream().map(this::convertToResource).collect(Collectors.toList());
-        return new PageImpl<ConversationResource>(resources, pageable, resources.size());
+    public ConversationResource getConversationByStudentId(@PathVariable(name = "studentId") Long studentId) {
+        return convertToResource(conversationService.getConversationByStudentId(studentId));
     }
 
     @GetMapping("/students/{studentId}/conversations/{conversationId}")

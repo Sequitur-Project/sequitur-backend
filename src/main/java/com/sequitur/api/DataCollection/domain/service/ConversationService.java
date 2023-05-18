@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface ConversationService {
 
-    Page<Conversation> getAllConversationsByStudentId(Long studentId, Pageable pageable);
+    Conversation getConversationByStudentId(Long studentId);
 
     Conversation getConversationByIdAndStudentId(Long studentId, Long conversationId);
 

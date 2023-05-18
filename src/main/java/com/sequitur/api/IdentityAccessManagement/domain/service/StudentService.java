@@ -5,9 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface StudentService {
 
-    Page<Student> getAllStudentsByUniversityId(Long universityId, Pageable pageable);
+    List<Student> getAllStudentsByUniversityId(Long universityId);
 
     Student getStudentByIdAndUniversityId(Long universityId, Long studentId);
 

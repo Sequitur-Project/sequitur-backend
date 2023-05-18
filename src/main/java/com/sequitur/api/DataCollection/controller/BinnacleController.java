@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Tag(name = "binnacles", description = "Binnacles API")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 public class BinnacleController {
 
@@ -35,6 +36,10 @@ public class BinnacleController {
     public BinnacleResource getBinnacleByIdAndStudentId(@PathVariable(name = "studentId") Long studentId,
                                                             @PathVariable(name = "binnacleId") Long binnacleId) {
         return convertToResource(binnacleService.getBinnacleByIdAndStudentId(binnacleId,studentId));
+    }
+    @GetMapping("/students/{studentId}/binnacles")
+    public BinnacleResource getBinnacleByStudentId(@PathVariable(name = "studentId") Long studentId) {
+        return convertToResource(binnacleService.getByStudentId(studentId));
     }
 
     @PostMapping("/students/{studentId}/binnacles")
